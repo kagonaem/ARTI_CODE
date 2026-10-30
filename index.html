@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>امتحان النظام الثنائي وكمية البيانات | ARTI CODE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --p: #3b5bdb;
+            --p2: #2b3a9f;
+            --y: #f5b800;
+            --bg: #f3f5fb;
+            --t: #1c2340;
+            --m: #6b7390;
+            --b: #d9dfef;
+            --soft: #eef1fc
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+        
+        body {
+            margin: 0;
+            font-family: Cairo, Tahoma, sans-serif;
+            background: var(--bg);
+            color: var(--t);
+            line-height: 1.8
+        }
+        
+        .wrap {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 16px 40px
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--p), var(--p2));
+            color: #fff;
+            border-radius: 0 0 26px 26px;
+            padding: 30px 24px 26px
+        }
+        
+        .hero .in {
+            max-width: 828px;
+            margin: 0 auto
+        }
+        
+        .badge {
+            display: inline-block;
+            background: var(--y);
+            color: var(--t);
+            font-weight: 700;
+            border-radius: 20px;
+            padding: 0 14px;
+            font-size: 14px
+        }
+        
+        .hero h1 {
+            margin: 10px 0 2px;
+            font-size: 32px;
+            font-weight: 800;
+            line-height: 1.4
+        }
+        
+        .hero p {
+            margin: 0;
+            opacity: .85
+        }
+        
+        .card {
+            background: #fff;
+            border: 1px solid var(--b);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 14px 0
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px
+        }
+        
+        .stat {
+            background: var(--soft);
+            border: 1px solid var(--b);
+            border-radius: 14px;
+            text-align: center;
+            padding: 8px
+        }
+        
+        .stat small {
+            display: block;
+            color: var(--m)
+        }
+        
+        .stat b {
+            color: var(--p2);
+            font-size: 18px
+        }
+        
+        .note {
+            border-inline-start: 5px solid #22a559;
+            background: #e9f8ee;
+            border-radius: 10px;
+            padding: 10px 16px;
+            margin: 14px 0
+        }
+        
+        .note ul {
+            margin: 4px 0 0;
+            padding-inline-start: 20px
+        }
+        
+        label.f {
+            display: block;
+            font-weight: 700;
+            margin: 10px 0 4px
+        }
+        
+        input[type=text],
+        textarea {
+            width: 100%;
+            font: inherit;
+            padding: 9px 12px;
+            border: 1.5px solid var(--b);
+            border-radius: 10px;
+            background: #fff;
+            color: var(--t)
+        }
+        
+        textarea {
+            min-height: 90px;
+            resize: vertical
+        }
+        
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--p);
+            box-shadow: 0 0 0 3px #3b5bdb26
+        }
+        
+        .btn {
+            background: var(--p);
+            color: #fff;
+            border: 0;
+            border-radius: 12px;
+            padding: 10px 32px;
+            font: 700 17px Cairo, sans-serif;
+            cursor: pointer
+        }
+        
+        .btn:hover {
+            background: var(--p2)
+        }
+        
+        .btn:disabled {
+            opacity: .6;
+            cursor: wait
+        }
+        
+        .err {
+            color: #c62828;
+            font-weight: 600;
+            margin-top: 8px
+        }
+        
+        .bar {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            background: #fff;
+            border-bottom: 1px solid var(--b);
+            box-shadow: 0 2px 8px #0000001a
+        }
+        
+        .bar .in {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px
+        }
+        
+        .timer {
+            font: 800 22px/1 Cairo, sans-serif;
+            color: var(--p2);
+            direction: ltr;
+            min-width: 96px
+        }
+        
+        .timer.low {
+            color: #d32f2f
+        }
+        
+        .prog {
+            flex: 1;
+            height: 8px;
+            background: #e5e9f6;
+            border-radius: 8px;
+            overflow: hidden
+        }
+        
+        .prog i {
+            display: block;
+            height: 100%;
+            width: 0;
+            background: var(--y);
+            transition: width .3s
+        }
+        
+        .cnt {
+            font-weight: 700;
+            color: var(--m);
+            white-space: nowrap
+        }
+        
+        .sec {
+            background: linear-gradient(135deg, var(--p), var(--p2));
+            color: #fff;
+            border-radius: 16px;
+            padding: 12px 20px;
+            margin: 26px 0 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 20px
+        }
+        
+        .q {
+            padding: 12px 0;
+            border-bottom: 1px dashed var(--b)
+        }
+        
+        .q:last-child {
+            border: 0
+        }
+        
+        .q h3,
+        .qt {
+            margin: 0 0 8px;
+            font-size: 17px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start
+        }
+        
+        .qt {
+            justify-content: space-between;
+            align-items: center;
+            font-size: 19px
+        }
+        
+        .n {
+            flex: none;
+            background: var(--p);
+            color: #fff;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            font-size: 14px
+        }
+        
+        .opts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px
+        }
+        
+        .opt {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            border: 1.5px solid var(--b);
+            border-radius: 12px;
+            padding: 6px 12px;
+            cursor: pointer
+        }
+        
+        .opt:hover {
+            border-color: var(--p)
+        }
+        
+        .opt:has(input:checked) {
+            border-color: var(--p);
+            background: var(--soft)
+        }
+        
+        .opt input {
+            accent-color: var(--p);
+            width: 18px;
+            height: 18px;
+            flex: none
+        }
+        
+        .opt b {
+            color: var(--p2)
+        }
+        
+        .part {
+            margin: 12px 0
+        }
+        
+        .part>label {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            font-weight: 600;
+            margin-bottom: 4px
+        }
+        
+        .pts {
+            flex: none;
+            color: var(--p2);
+            font-size: 14px;
+            background: var(--soft);
+            border-radius: 10px;
+            padding: 0 10px;
+            height: fit-content
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse
+        }
+        
+        th,
+        td {
+            border: 1px solid var(--b);
+            padding: 4px;
+            text-align: center
+        }
+        
+        th {
+            background: var(--soft);
+            color: var(--p2)
+        }
+        
+        td:first-child {
+            font-weight: 600;
+            background: #fafbff;
+            white-space: nowrap
+        }
+        
+        td input {
+            padding: 6px 8px
+        }
+        
+        .end {
+            text-align: center;
+            margin: 30px 0 10px
+        }
+        
+        .done {
+            text-align: center;
+            padding: 40px 20px
+        }
+        
+        .tick {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: #22a559;
+            color: #fff;
+            font-size: 40px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 12px
+        }
+        
+        footer {
+            text-align: center;
+            color: var(--m);
+            font-size: 14px;
+            margin-top: 24px
+        }
+        
+         :focus-visible {
+            outline: 3px solid var(--y);
+            outline-offset: 2px
+        }
+        
+        @media(max-width:620px) {
+            .opts {
+                grid-template-columns: 1fr
+            }
+            .stats {
+                grid-template-columns: 1fr 1fr
+            }
+            .hero h1 {
+                font-size: 25px
+            }
+            .sec {
+                font-size: 17px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="hero">
+        <div class="in">
+            <span class="badge">الدرس الأول · الوحدة السادسة</span>
+            <h1>امتحان النظام الثنائي وكمية البيانات</h1>
+            <p>البرمجة والذكاء الاصطناعي · الصف الأول الثانوي · ARTI CODE</p>
+        </div>
+    </header>
+
+    <main class="wrap">
+        <section id="st">
+            <div class="card">
+                <div class="stats">
+                    <div class="stat"><small>الزمن</small><b id="tmx">ساعتان</b></div>
+                    <div class="stat"><small>الدرجة الكلية</small><b>40 درجة</b></div>
+                    <div class="stat"><small>عدد الأسئلة</small><b>40 سؤالًا</b></div>
+                    <div class="stat"><small>نوع الأسئلة</small><b>اختيار من متعدد</b></div>
+                </div>
+            </div>
+            <div class="note"><b>تعليمات:</b>
+                <ul>
+                    <li>اقرأ كل سؤال بتمعّن قبل الإجابة.</li>
+                    <li>في أسئلة الاختيار اختر إجابة واحدة فقط.</li>
+                    <li>يُحفظ تقدمك تلقائيًا على جهازك، ويُسلَّم الامتحان تلقائيًا عند انتهاء الوقت.</li>
+                    <li>لا تغلق الصفحة قبل ظهور رسالة تأكيد استلام الإجابات.</li>
+                </ul>
+            </div>
+            <div class="card">
+                <label class="f" for="nm">الاسم بالكامل</label><input type="text" id="nm" autocomplete="name">
+                <label class="f" for="cl">الفصل</label><input type="text" id="cl">
+                <p class="err" id="er" hidden>اكتب اسمك الكامل والفصل قبل البدء.</p>
+                <p style="margin:16px 0 0"><button class="btn" id="go">ابدأ الامتحان</button></p>
+            </div>
+        </section>
+
+        <section id="ex" hidden></section>
+
+        <section id="dn" class="card done" hidden>
+            <div class="tick">✓</div>
+            <h2 style="margin:0">تم استلام إجاباتك</h2>
+            <p id="dm" style="color:var(--m)"></p>
+        </section>
+
+        <footer>م. أيمن نعيم · البرمجة والذكاء الاصطناعي</footer>
+    </main>
+
+    <script>
+        const CFG = {
+            KEY: "e09cf4ec-f7df-4666-9b95-3dac4408aeb8", // ضع هنا الـ Access Key من web3forms.com
+            MINUTES: 60,
+            SHOW_SCORE: false, // true = تظهر للطالب درجة الاختيار من متعدد بعد التسليم
+            TITLE: "امتحان النظام الثنائي وكمية البيانات"
+        };
+        const SK = "arti_exam_u6l1",
+            L = "أبجدهو";
+        const KEY = "بدأأججدجبأ" + "جدبأدجأبدج" + "أبجدبأدجأب" + "جدأبجدأجدب";
+        const M = [
+            ["الـ bit هو:", ["أكبر وحدة لقياس البيانات داخل الكمبيوتر", "أصغر وحدة لقياس البيانات والمعلومات داخل الكمبيوتر", "وحدة تتكون من 8 Bytes", "وحدة تساوي 1024 B"]],
+            ["أقل عدد من الـ bits يكفي لتمثيل حالتين (تشغيل / إيقاف) هو:", ["8 bits", "4 bits", "2 bits", "1 bit"]],
+            ["كل مما يلي من الأشياء التي يكون لها وضعان فقط، ما عدا:", ["عدد الملفات المخزنة على الجهاز", "المفتاح الكهربي", "الجهد الكهربي", "اتجاه المغناطيس"]],
+            ["الحالة التي تمثل الرقم 1 في المفتاح الكهربي هي:", ["مغلق", "منخفض", "مفتوح", "شمال"]],
+            ["أي العبارات التالية صحيحة؟", ["جهد منخفض يمثل 1", "اتجاه شمال يمثل 0", "مفتاح مغلق يمثل 1", "اتجاه جنوب يمثل 1"]],
+            ["إذا مثّلنا بالترتيب: مفتاح مفتوح ، جهد مرتفع ، اتجاه شمال ، فإن الأرقام الناتجة هي:", ["110", "101", "011", "100"]],
+            ["يقوم الكمبيوتر بتخزين كل البيانات على شكل:", ["حروف وأرقام عشرية", "صور وأصوات كما هي", "رموز مختلفة لكل نوع من البيانات", "مجموعة من الأصفار والآحاد"]],
+            ["في القاعدة 2<sup>n</sup> يعبّر الحرف n عن:", ["عدد الاحتمالات", "عدد الـ Bytes", "عدد الـ Bits", "حجم الملف بالـ KB"]],
+            ["أي العبارات التالية خاطئة؟", ["الكمبيوتر يخزن البيانات على شكل أصفار وآحاد", "الكمبيوتر يفهم الحروف والصور مباشرة دون تحويلها", "يتم تمثيل البيانات الفعلية بترتيب الـ bits", "الـ bit الواحد له حالتان فقط"]],
+            ["تمثيل الحرف أو الصورة أو الصوت داخل الكمبيوتر يتم عن طريق:", ["ترتيب معين من الـ bits", "bit واحد ثابت لكل نوع من البيانات", "رقم عشري يُحفظ كما هو", "الصورة الأصلية دون أي تحويل"]],
+            ["عدد الاحتمالات المختلفة التي يمكن تمثيلها باستخدام 4 bits هو:", ["8", "12", "16", "32"]],
+            ["عدد الاحتمالات المختلفة التي يمكن تمثيلها باستخدام 7 bits هو:", ["14", "49", "64", "128"]],
+            ["عدد الاحتمالات المختلفة التي يمكن تمثيلها باستخدام 5 bits هو:", ["25", "32", "10", "64"]],
+            ["أقل عدد من الـ bits يلزم لتمثيل 16 احتمالًا مختلفًا هو:", ["4", "8", "16", "2"]],
+            ["أقل عدد من الـ bits يلزم لتمثيل 20 عنصرًا مختلفًا هو:", ["3", "4", "10", "5"]],
+            ["أقل عدد من الـ bits يلزم لتمثيل 100 عنصر مختلف هو:", ["5", "6", "7", "8"]],
+            ["عند زيادة عدد الـ bits بمقدار bit واحد فقط ، فإن عدد الاحتمالات:", ["يتضاعف", "يزيد بمقدار 1", "يزيد بمقدار 2", "يظل ثابتًا"]],
+            ["الفرق بين عدد الاحتمالات التي تمثلها 4 bits وعدد الاحتمالات التي تمثلها 3 bits يساوي:", ["1", "8", "4", "16"]],
+            ["عدد الاحتمالات التي تمثلها 6 bits يساوي عدد الاحتمالات التي تمثلها 3 bits مضروبًا في:", ["2", "3", "6", "8"]],
+            ["عند استخدام 2 bits ، أي مما يلي لا يُعد احتمالًا صحيحًا؟", ["01", "10", "011", "11"]],
+            ["عند استخدام 3 bits ، عدد الاحتمالات التي تبدأ بالرقم 1 يساوي:", ["4", "3", "8", "2"]],
+            ["الاحتمال الذي يأتي مباشرة بعد 011 في ترتيب احتمالات 3 bits هو:", ["101", "100", "111", "010"]],
+            ["عند استخدام 2 bits ، عدد الاحتمالات التي تحتوي على الرقم 1 مرة واحدة على الأقل يساوي:", ["1", "2", "3", "4"]],
+            ["عند استخدام 3 bits ، عدد الاحتمالات التي تبدأ بالرقمين 10 يساوي:", ["1", "3", "4", "2"]],
+            ["تتكون وحدة البايت (Byte) من:", ["4 bits", "8 bits", "16 bits", "1024 bits"]],
+            ["الرمز الذي يُستخدم للإشارة إلى البايت هو:", ["B", "KB", "bit", "MB"]],
+            ["عدد الاحتمالات التي يمكن أن يمثلها 1 Byte هو:", ["8", "64", "128", "256"]],
+            ["عدد الـ bits الموجودة في 3 Bytes هو:", ["3", "11", "24", "256"]],
+            ["عدد الـ Bytes اللازمة لتخزين 64 bit هو:", ["8", "16", "32", "64"]],
+            ["إذا كان 1 Byte يمثل 256 احتمالًا ، فإن 2 Bytes معًا يمثلان:", ["512", "65,536", "1,024", "4,096"]],
+            ["الوحدة الأساسية لقياس حجم البيانات هي:", ["bit", "KB", "Byte", "MB"]],
+            ["1 KB تساوي:", ["1000 B", "1024 bit", "8 B", "1024 B"]],
+            ["1 MB تساوي:", ["1024 KB", "1024 B", "1000 KB", "1024 GB"]],
+            ["عدد الـ bits في 1 KB يساوي:", ["1,024", "8,192", "8,000", "1,048,576"]],
+            ["2 KB تساوي:", ["2,000 B", "1,024 B", "2,048 B", "4,096 B"]],
+            ["3 GB تساوي:", ["3,000 MB", "1,024 MB", "9,216 MB", "3,072 MB"]],
+            ["2048 MB تساوي:", ["2 GB", "1 GB", "4 GB", "2 TB"]],
+            ["الترتيب الصحيح للوحدات من الأكبر إلى الأصغر هو:", ["MB > GB > KB > TB", "GB > TB > MB > KB", "TB > GB > MB > KB", "KB > MB > GB > TB"]],
+            ["عدد الـ MB في 1 TB يساوي:", ["1,024", "1,000,000", "1,073,741,824", "1,048,576"]],
+            ["ملف حجمه 4096 B يساوي:", ["1 KB", "4 KB", "8 KB", "40 KB"]]
+        ];
+        const $ = s => document.querySelector(s),
+            F = () => [...document.querySelectorAll("#ex input,#ex textarea")];
+
+        let h = `<div class="bar"><div class="in"><span class="timer" id="tm">--:--:--</span><div class="prog"><i></i></div><span class="cnt" id="cnt">0/40</span></div></div>`;
+        h += `<div class="sec"><span>اختر الإجابة الصحيحة</span><span class="badge">40 درجة · لكل سؤال درجة واحدة</span></div><div class="card">`;
+        M.forEach(([q, o], i) => {
+            h += `<div class="q"><h3><span class="n">${i+1}</span><span>${q}</span></h3><div class="opts">` + o.map((t, j) => `<label class="opt"><input type="radio" name="m${i}" value="${L[j]}"><b>${L[j]}</b><span>${t}</span></label>`).join("") + `</div></div>`
+        });
+        h += `</div>`;
+        h += `<div class="end"><button class="btn" id="sb">تسليم الامتحان</button><p class="err" id="se" hidden>تعذّر الإرسال. تأكد من اتصالك بالإنترنت ثم اضغط «تسليم الامتحان» مرة أخرى. إجاباتك محفوظة.</p><p style="color:var(--m)">انتهت الأسئلة — مع تمنياتنا بالتوفيق</p></div>`;
+        $("#ex").innerHTML = h;
+
+        let S = {},
+            sending = 0,
+            locked = 0,
+            running = 0;
+        const load = () => {
+            try {
+                return JSON.parse(localStorage.getItem(SK)) || {}
+            } catch (e) {
+                return {}
+            }
+        };
+        const save = () => {
+            try {
+                S.v = F().map(e => e.type == "radio" ? +e.checked : e.value);
+                localStorage.setItem(SK, JSON.stringify(S))
+            } catch (e) {}
+        };
+        const ans = i => (($(`input[name=m${i}]:checked`)) || {}).value;
+        const prog = () => {
+            let n = 0;
+            M.forEach((_, i) => {
+                if (ans(i)) n++
+            });
+            $("#cnt").textContent = n + "/40";
+            $(".prog i").style.width = n * 2.5 + "%";
+            return n
+        };
+
+        function run() {
+            running = 1;
+            $("#st").hidden = true;
+            $("#ex").hidden = false;
+            F().forEach((e, i) => {
+                const v = (S.v || [])[i];
+                if (v != null) {
+                    e.type == "radio" ? e.checked = !!v : e.value = v
+                }
+            });
+            prog();
+            tick();
+            setInterval(tick, 1000);
+            window.scrollTo(0, 0);
+        }
+
+        function tick() {
+            const r = Math.max(0, S.start + CFG.MINUTES * 6e4 - Date.now()),
+                s = r / 1000 | 0;
+            $("#tm").textContent = [s / 3600 | 0, s / 60 % 60 | 0, s % 60].map(x => String(x).padStart(2, "0")).join(":");
+            $("#tm").classList.toggle("low", r < 6e5);
+            if (!r && !locked && !S.done) {
+                locked = 1;
+                F().forEach(e => e.disabled = true);
+                send(true)
+            }
+        }
+
+        function fin() {
+            running = 0;
+            $("#st").hidden = true;
+            $("#ex").hidden = true;
+            $("#dn").hidden = false;
+            $("#dm").textContent = `شكرًا ${S.name||""}، وصلت إجاباتك إلى المعلم ولا يمكنك إعادة الامتحان من هذا الجهاز.` + (CFG.SHOW_SCORE && S.sc != null ? ` درجتك في أسئلة الاختيار: ${S.sc} من 40.` : "");
+        }
+        async function send(auto) {
+            if (sending) return;
+            if (!auto) {
+                const n = prog();
+                if (!confirm(n < 40 ? `لم تُجب عن ${40-n} سؤال/أسئلة. هل تريد التسليم الآن؟` : "هل أنت متأكد من تسليم الامتحان؟")) return
+            }
+            sending = 1;
+            $("#sb").disabled = true;
+            $("#sb").textContent = "جارٍ الإرسال…";
+            $("#se").hidden = true;
+            const sc = M.reduce((a, _, i) => a + (ans(i) == KEY[i] ? 1 : 0), 0);
+            const mcq = M.map((_, i) => `${i+1}: ${ans(i)||"—"}${ans(i)==KEY[i]?"":"  (الصحيحة: "+KEY[i]+")"}`).join("\n");
+            const P = {
+                access_key: CFG.KEY,
+                subject: `${CFG.TITLE} - ${S.name} - ${S.cls}`,
+                from_name: "ARTI CODE - الامتحان الإلكتروني",
+                student_name: S.name,
+                class: S.cls,
+                date: new Date().toLocaleString("ar-EG"),
+                time_used_minutes: Math.round((Date.now() - S.start) / 6e4),
+                tab_switches: S.tabs || 0,
+                auto_submitted: auto ? "نعم (انتهى الوقت)" : "لا",
+                mcq_score: `${sc} / 40`,
+                mcq_answers: mcq
+            };
+            try {
+                const r = await fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json"
+                    },
+                    body: JSON.stringify(P)
+                });
+                const j = await r.json();
+                if (!j.success) throw 0;
+                S.done = 1;
+                S.sc = sc;
+                save();
+                fin();
+            } catch (e) {
+                sending = 0;
+                $("#sb").disabled = false;
+                $("#sb").textContent = "تسليم الامتحان";
+                $("#se").hidden = false
+            }
+        }
+        $("#go").onclick = () => {
+            const n = $("#nm").value.trim(),
+                c = $("#cl").value.trim();
+            if (n.length < 3 || !c) {
+                $("#er").hidden = false;
+                return
+            }
+            S = {
+                name: n,
+                cls: c,
+                start: Date.now(),
+                tabs: 0
+            };
+            save();
+            run();
+        };
+        $("#sb").onclick = () => send(false);
+        $("#ex").addEventListener("input", () => {
+            save();
+            prog()
+        });
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden && running && !S.done) {
+                S.tabs = (S.tabs || 0) + 1;
+                save()
+            }
+        });
+        window.addEventListener("beforeunload", e => {
+            if (running && !S.done) {
+                e.preventDefault();
+                e.returnValue = ""
+            }
+        }); {
+            const m = CFG.MINUTES;
+            $("#tmx").textContent = m == 60 ? "ساعة" : m == 120 ? "ساعتان" : m + " دقيقة"
+        }
+        S = load();
+        if (S.done) fin();
+        else if (S.start) run();
+    </script>
+</body>
+
+</html>
